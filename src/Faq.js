@@ -19,7 +19,7 @@ const Faq = () => {
             question: "Want to watch a video?",
             answer: videoPlayer(),
         }
-        setFaqs([...loadFaqs(), videoFaq])
+        setFaqs([videoFaq, ...loadFaqs()])
     }
 
     const faqHeader = () => (<div style={{
