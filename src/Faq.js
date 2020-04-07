@@ -1,7 +1,8 @@
 import React, { useState }  from 'react';
 import ReactPlayer from 'react-player';
 import './scrollbar.css';
-import { loadFaqs } from './util';
+import { loadFaqs, loadDdOptions } from './util';
+import Select from 'react-select'
 
 const Faq = () => {
     const [openFaqs, setOpenFaqs] = useState({})
@@ -21,6 +22,48 @@ const Faq = () => {
         }
         setFaqs([videoFaq, ...loadFaqs()])
     }
+
+    // const onTargetBugChange = (inputValue, { action }) => {
+    const onTargetBugChange = (inputValue, actionOb, index) => {
+        const action = actionOb.action
+        switch (action) {
+          case 'select-option':
+            console.log(`Item #${index} select-option: ${inputValue}`)
+            return;
+          case 'menu-close':
+            console.log(`Item #${index} select-option: ${inputValue}`)
+            return;
+          case 'deselect-option':
+              console.log(`Item #${index} deselect-option ${inputValue}`)
+              return;
+          case 'remove-value':
+              console.log(`Item #${index} remove-value ${inputValue}`)
+              return;
+          case 'pop-value':
+              console.log(`Item #${index} pop-value ${inputValue}`)
+              return;
+          case 'set-value':
+              console.log(`Item #${index} set-value ${inputValue}`)
+              return;
+          case 'clear':
+              console.log(`Item #${index} clear ${inputValue}`)
+              return;
+          case 'create-option':
+              console.log(`Item #${index} create-option ${inputValue}`)
+              return;
+          default:
+            return;
+        }
+      }
+
+    const targetBugAndSpeciesDropdown = (index) => (
+        // <Select options={loadDdOptions()} onInputChange={(onTargetBugChange)} />
+        <Select
+            isSearchable
+            options={loadDdOptions()}
+            onInputChange={(inputValue, actionOb) => onTargetBugChange(inputValue, actionOb, index)}
+        />
+      )
 
     const faqHeader = () => (<div style={{
         display: 'flex',
@@ -83,7 +126,10 @@ const Faq = () => {
                 borderStyle: 'solid',
                 borderWidth: 2,
                 borderRadius: 8,
-                }}>{faq.answer}</div>)
+                }}>
+                    {faq.answer}
+                    {targetBugAndSpeciesDropdown(faq.id)}
+                </div>)
             : (<></>)}
         </div>)
 
